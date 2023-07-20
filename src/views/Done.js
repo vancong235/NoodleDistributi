@@ -2,12 +2,21 @@ import { StyleSheet, Text, View, ImageBackground, StatusBar, Image, TouchableOpa
 import React from 'react'
 import { Dimensions } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchUserData, setImage, initValue } from './features/user/userSlice'
 
 const Done = () => {
     const navigation = useNavigation(); // Lấy navigation prop
-    const handlePress = () => {
-      console.log('The button was pressed');
-      navigation.navigate('Sellout'); // Chuyển hướng đến màn hình done
+    const [canScan, setCanScan] = useState(true);
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user);
+    const status = useSelector(state => state.user.status);
+    const userData = useSelector(state => state.user.userData);
+    
+    const handlePress = async () => {
+        await dispatch(fetchUserData(userData.ID));
+        navigation.navigate('Information');
     }
     return (
         <ImageBackground 

@@ -24,11 +24,11 @@ const Sellout = () => {
             />
             <Image
                 source={require('../../assets/outof/there.png')}
-                style={{ position: 'absolute', top: '23%', width:'75%', height: '20%', resizeMode: "contain" }}
+                style={{ position: 'absolute', top: '21%', width:'75%', height: '20%', resizeMode: "contain" }}
             />
             <Image
                 source={require('../../assets/outof/hide.png')}
-                style={{ position: 'absolute', top: '39%', width:'70%', height: '20%', resizeMode: "contain" }}
+                style={{ position: 'absolute', top: '37%', width:'70%', height: '20%', resizeMode: "contain" }}
             />
         </ImageBackground>
     )

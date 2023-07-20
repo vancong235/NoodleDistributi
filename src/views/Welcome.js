@@ -1,16 +1,38 @@
+import { deprecatedPropType } from 'deprecated-react-native-prop-types';
 import { StyleSheet, Text, View, ImageBackground, StatusBar, Image, TouchableOpacity,  Animated, Dimensions} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { GestureHandlerRootView, PanGestureHandler, State } from 'react-native-gesture-handler';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
+const fun = async (uid) => {
+  const user = await firestore().collection('Information').doc(uid).get();
+  // console.log(user);
+}
 
+const r = async () => {
+  const user = await firestore().collection('Information').doc('3120410074').get();
+}
+
+const getImageUrl = async (imageName) => {
+  try {
+    const reference = storage().ref(imageName);
+    const url = await reference.getDownloadURL();
+    // console.log(url);
+    return url;
+  } catch (error) {
+    console.log('Error getting image URL: ', error);
+    return null;
+  }
+}
+// eslint-disable react/prop-types
 const Welcome = () => {
     const navigation = useNavigation(); // Lấy navigation prop
-
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const onGestureEvent = event => {
       setPosition({
@@ -29,6 +51,8 @@ const Welcome = () => {
           y: processY,
         });
         navigation.navigate('Qrcode'); // Chuyển hướng đến màn hình Error
+      } else {
+        navigation.navigate('Welcome');
       }
     };
   
@@ -53,7 +77,6 @@ const Welcome = () => {
                 source={require('../../assets/common/qr.png')}
                 style={{ position: 'absolute', top: '56%', width:'70%', height: '20%', resizeMode: "contain" }}
             />
-
             <PanGestureHandler onHandlerStateChange={onHandlerStateChange}
               onGestureEvent={onGestureEvent}>
                 <Animated.Image 
@@ -85,7 +108,7 @@ const Welcome = () => {
         </ImageBackground>
     )
 }
-
+// eslint-enable react/prop-types
 export default Welcome
 
 const styles = StyleSheet.create({
